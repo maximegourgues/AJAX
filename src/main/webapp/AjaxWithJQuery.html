@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ajax avec JQuery</title>
+		<meta charset="UTF-8">
+		<!-- On charge la bibliothèque JQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(// Exécuté à la fin du chargement de la page
+				function () {
+					// Quand on clique sur le bouton doAjax, on exécute la fonction doRequest
+					$("#doAjax").click(doRequest);
+				}
+			);
+
+			// Fonction qui traite les résultats de la requête
+			function showResult(result) {
+                                // On affiche le résultat
+				$("#demo").html(result);
+                                // On réactive le bouton
+                                $("#doAjax").prop("disabled",false);
+			}
+
+			// Fonction qui traite les erreurs de la requête
+			function showError(xhr, status, message) {
+				$("#demo").html("Erreur: " + status + " : " + message);
+			}
+
+			function doRequest() {
+				$.ajax({
+					url: "AjaxTimedServlet",
+					success: showResult,
+					error: showError
+				});
+                                // On désactive le bouton
+                                $("#doAjax").prop("disabled",true);
+
+			}
+		</script>        
+	</head>
+	<body>
+		<button id="doAjax">Exécuter la requête AJAX</button><br>
+		<textarea id="demo" rows="10" cols="50"></textarea>
+	</body>
+</html>

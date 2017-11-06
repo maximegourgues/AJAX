@@ -1,0 +1,18 @@
+----------------------------------------------------------------
+Sat Nov 04 09:11:28 CET 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a816c00e-015f-8615-abf0-00000a47cd30 
+on database directory /home/rbastide/ownCloud/Enseignement/Client-Serveur/Technologie_Web/EditionDiscountMaven/embedded_sample3 with class loader ParallelWebappClassLoader
+  context: ROOT
+  delegate: false
+----------> Parent Classloader:
+sun.misc.Launcher$AppClassLoader@55f96302
+ 
+Loaded from file:/home/rbastide/ownCloud/Enseignement/Client-Serveur/Technologie_Web/EditionDiscountMaven/target/tomcat.8080/webapps/expanded/WEB-INF/lib/derby-10.14.1.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_151-b12
+user.dir=/home/rbastide/ownCloud/Enseignement/Client-Serveur/Technologie_Web/EditionDiscountMaven
+os.name=Linux
+os.arch=amd64
+os.version=4.13.0-16-generic
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Client JQuery</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<!-- On charge jQuery -->
+		<script	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<!-- On charge le plugin JSONToTable https://github.com/jongha/jquery-jsontotable -->
+		<script type="text/javascript" 	src="javascript/jquery.jsontotable.min.js"></script>
+		<script>
+			$(document).ready(// Exécuté à la fin du chargement de la page
+				function () {
+					// On remplit le <select> avec les états existants
+					fillStateSelector();
+					// Quand on sélectionnne un nouvel état, on affiche les clients de cet état
+					$("#state").change(showCustomersInState);
+				}
+			);
+			
+			function fillStateSelector() {
+				// On fait un appel AJAX pour chercher les états existants
+				$.ajax({
+					url: "statesInJSON",
+					dataType: "json",
+					error: showError,
+					success: // La fonction qui traite les résultats
+						function(result) {
+							var select = $('#state');
+							// Pour chaque état dans le résultat
+							$.each(result, 
+								function(stateIndex) {
+									// On ajoute une option dans le select
+									var stateCode = result[stateIndex];
+									var option = new Option(stateCode, stateCode);
+									//var option = new Option(stateCode, stateCode, stateIndex === 0, stateIndex === 0);
+									select.append($(option));
+								}
+							);
+							// On initialise l'affichage 
+							showCustomersInState();		
+						}
+				});								
+			}
+
+			
+			// Afficher les clients dans l'état sélectionné
+			function showCustomersInState() {
+				// Quel est l'état sélectionné ?
+				var selectedState = $("#state").val();	
+				// On fait un appel AJAX pour chercher les clients de cet état
+				$.ajax({
+					url: "customersInJSON",
+					// Transmettre des paramètres à la servlet
+					data: { "state" : selectedState },
+					dataType: "json",
+					success: // La fonction qui traite les résultats
+						function(result) {
+							$("#customers").empty();
+							// On convertit les enregistrements en table HTML
+							$.jsontotable(result, {id: "#customers", header: false});
+						},
+					error: showError
+				});				
+			}
+
+			// Fonction qui traite les erreurs de la requête
+			function showError(xhr, status, message) {
+				$("#erreur").html("Erreur: " + status + " : " + message);
+			}
+		</script>
+		<!-- un CSS pour formatter la table -->
+		<link rel="stylesheet" type="text/css" href="css/tableformat.css">
+	</head>
+	<body>
+		<div>
+			Cette page utilise les servlets suivantes :
+			<ul>
+				<li><a href="statesInJSON" target="_blank">Liste des états en JSON</a></li>
+				<li><a href="customersInJSON?state=CA" target="_blank">Liste des clients dans un état en JSON</a></li>
+			</ul>
+			La page utilise également le <a href="https://github.com/jongha/jquery-jsontotable" target="_blank">plugin JQuery JsonToTable</a> pour formatter le résultat.<br>
+			<hr>
+		</div>
+		<div id="erreur"></div>
+		<form>
+			<label for="state">Choose state</label>
+			<select id="state"></select>
+		</form>
+
+		 
+		<h2>Customers in state</h2>
+		<!-- La zone où les résultats vont s'afficher -->
+		<div id="customers"></div>
+	</body>
+</html>
