@@ -13,6 +13,7 @@
 			<li><a href="AjaxWithJQuery.html">Ajax avec JQuery</a></li>
 			<li><a href="JQueryClient.html">Formulaire AJAX avec JQuery + plugin JsonToTable</a></li>
 			<li><a href="JQueryClientMustache.html">Formulaire AJAX avec JQuery + moteur de template Mustache</a></li>
+			<li><a href="mustacheFiddle.html">Test du moteur de template JMustache</a></li>
 			<li><a href="googlePieChart.jsp">Visualisations Google avec AJAX</a></li>
 		</ul>
 	</body>
