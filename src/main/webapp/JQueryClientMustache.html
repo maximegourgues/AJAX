@@ -25,18 +25,13 @@
 					error: showError,
 					success: // La fonction qui traite les résultats
 						function(result) {
-							var select = $('#state');
-							// Pour chaque état dans le résultat
-							$.each(result, 
-								function(stateIndex) {
-									// On ajoute une option dans le select
-									var stateCode = result[stateIndex];
-									var option = new Option(stateCode, stateCode);
-									//var option = new Option(stateCode, stateCode, stateIndex === 0, stateIndex === 0);
-									select.append($(option));
-								}
-							);
-							// On initialise l'affichage 
+		                                        // Le code source du template est dans la page
+							var template = $('#selectTemplate').html();
+							// On combine le template avec le résultat de la requête
+							var processedTemplate = Mustache.to_html(template, { states: result });
+							// On affiche la liste des options dans le select
+							$('#state').html(processedTemplate);	
+							// On initialise l'affichage des clients
 							showCustomersInState();		
 						}
 				});								
@@ -92,7 +87,7 @@
 		 <!-- La zone où les résultats vont s'afficher -->
 		<div id="customers"></div>
 		
-		<!-- Le template qui sert à formatter les résultats -->
+		<!-- Le template qui sert à formatter la liste des clients résultats -->
 		<script id="customerTemplate" type="text/template">
 			<h2>Customers in {{state}}</h2>
 			<TABLE BORDER="1">
@@ -105,6 +100,18 @@
 				{{/records}}
 			</TABLE>
 		</script>
+                
+		<!-- Le template qui sert à formatter la liste des clients résultats -->
+		<script id="selectTemplate" type="text/template">
+				{{! Pour chaque état dans le tableau}}
+				{{#states}}
+					{{! Une option dans le select }}
+					{{! le point représente la valeur courante du tableau }}
+					<OPTION VALUE="{{.}}">{{.}}</OPTION>
+				{{/states}}
+			</TABLE>
+		</script>
+                
 		<hr/>
 		<a href="https://jsfiddle.net/bastide/0pd5r9t7/12/">Autre exemple avec JMustache</a>
 	</body>
