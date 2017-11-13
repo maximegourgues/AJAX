@@ -7,7 +7,6 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +15,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 
 // bibliothèque Google GSon
 import com.google.gson.*;
@@ -46,7 +44,7 @@ public class StatesInJsonServlet extends HttpServlet {
 		try (PrintWriter out = response.getWriter()) {
 
 			// Créér le DAO avec sa source de données
-			DAO dao = new DAO(DataSourceFactory.getDataSource(DataSourceFactory.DriverType.embedded));
+			DAO dao = new DAO(DataSourceFactory.getDataSource());
 			List<String> states = dao.existingStates();
 			
 			// Générer du JSON

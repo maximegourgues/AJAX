@@ -35,7 +35,7 @@ public class ApplicationListener implements ServletContextListener {
 	private boolean databaseExists() {
 		boolean result = false;
 
-		DAO dao = new DAO(DataSourceFactory.getDataSource(DataSourceFactory.DriverType.embedded));
+		DAO dao = new DAO(DataSourceFactory.getDataSource());
 		try {
 			List<String> states = dao.existingStates();
 			Logger.getLogger("AjaxMaven").log(Level.INFO, "Database already exists");
@@ -55,7 +55,7 @@ public class ApplicationListener implements ServletContextListener {
 		
 		Logger.getLogger("AjaxMaven").log(Level.INFO, "Creating databse from SQL script");
 		try {
-			Connection connection = DataSourceFactory.getDataSource(DataSourceFactory.DriverType.embedded).getConnection();
+			Connection connection = DataSourceFactory.getDataSource().getConnection();
 			int result = ij.runScript(connection, this.getClass().getResourceAsStream("export.sql"), "UTF-8", System.out, "UTF-8");
 			if (result == 0) {
 				Logger.getLogger("AjaxMaven").log(Level.INFO, "Database succesfully created");

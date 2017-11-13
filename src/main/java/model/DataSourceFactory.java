@@ -8,19 +8,19 @@ import javax.sql.DataSource;
  */
 public class DataSourceFactory {
 
-	public enum DriverType {
+	private enum DriverType {
 		embedded, server
 	};
-
+	
+	private static final DriverType TYPE = DriverType.embedded;
 	/**
 	 * Renvoie la source de données (server ou embbeded)
-	 * @param type le type de la source de données
 	 * @return  la source de données
 	 */
-	public static DataSource getDataSource(DriverType type) {
+	public static DataSource getDataSource() {
 		DataSource result;
 
-		switch (type) {
+		switch (TYPE) {
 			case server: // Derby mode serveur, doit être démarré indépendamment
 				org.apache.derby.jdbc.ClientDataSource ds = new org.apache.derby.jdbc.ClientDataSource();
 				ds.setDatabaseName("sample");

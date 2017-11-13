@@ -49,7 +49,7 @@ public class CustomersInJsonServlet extends HttpServlet {
 			String state = request.getParameter("state");
 
 			// Créér le DAO avec sa source de données
-			DAO dao = new DAO(DataSourceFactory.getDataSource(DataSourceFactory.DriverType.embedded));
+			DAO dao = new DAO(DataSourceFactory.getDataSource());
 
 			List<CustomerEntity> customers = dao.customersInState(state);
 			
