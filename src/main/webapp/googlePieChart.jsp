@@ -33,8 +33,8 @@
 						var chartData = [];
 						// On met le descriptif des données
 						chartData.push(["Client", "Ventes"]);
-						for(var client in result) {
-							chartData.push([client, result[client]]);
+						for(var client in result.records) {
+							chartData.push([client, result.records[client]]);
 						}
 						// On dessine le graphique
 						drawChart(chartData);

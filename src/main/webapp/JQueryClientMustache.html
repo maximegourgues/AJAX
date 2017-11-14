@@ -28,7 +28,7 @@
 		                                        // Le code source du template est dans la page
 							var template = $('#selectTemplate').html();
 							// On combine le template avec le résultat de la requête
-							var processedTemplate = Mustache.to_html(template, { states: result });
+							var processedTemplate = Mustache.to_html(template, result);
 							// On affiche la liste des options dans le select
 							$('#state').html(processedTemplate);	
 							// On initialise l'affichage des clients
@@ -51,7 +51,7 @@
 							// Le code source du template est dans la page
 							var template = $('#customerTemplate').html();
 							// On combine le template avec le résultat de la requête
-							var processedTemplate = Mustache.to_html(template, { state: selectedState, records: result });
+							var processedTemplate = Mustache.to_html(template, { state: selectedState, records: result.records });
 							// On affiche le résultat dans la page
 							$('#customers').html(processedTemplate);	
 						},
@@ -104,11 +104,11 @@
 		<!-- Le template qui sert à formatter la liste des clients résultats -->
 		<script id="selectTemplate" type="text/template">
 				{{! Pour chaque état dans le tableau}}
-				{{#states}}
+				{{#records}}
 					{{! Une option dans le select }}
 					{{! le point représente la valeur courante du tableau }}
 					<OPTION VALUE="{{.}}">{{.}}</OPTION>
-				{{/states}}
+				{{/records}}
 			</TABLE>
 		</script>
                 

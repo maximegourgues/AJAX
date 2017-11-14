@@ -27,10 +27,10 @@
 						function(result) {
 							var select = $('#state');
 							// Pour chaque état dans le résultat
-							$.each(result, 
+							$.each(result.records, 
 								function(stateIndex) {
 									// On ajoute une option dans le select
-									var stateCode = result[stateIndex];
+									var stateCode = result.records[stateIndex];
 									var option = new Option(stateCode, stateCode);
 									//var option = new Option(stateCode, stateCode, stateIndex === 0, stateIndex === 0);
 									select.append($(option));
@@ -57,7 +57,7 @@
 						function(result) {
 							$("#customers").empty();
 							// On convertit les enregistrements en table HTML
-							$.jsontotable(result, {id: "#customers", header: false});
+							$.jsontotable(result.records, {id: "#customers", header: false});
 						},
 					error: showError
 				});				

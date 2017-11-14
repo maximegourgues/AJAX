@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import model.CustomerEntity;
 import com.google.gson.*;
+import java.util.Collections;
+import java.util.Properties;
 
 import model.DAO;
 import model.DataSourceFactory;
@@ -40,27 +42,29 @@ public class CustomersInJsonServlet extends HttpServlet {
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
+		// Trouver la valeur du paramètre HTTP state
+		String state = request.getParameter("state");
+		// Créér le DAO avec sa source de données
+		DAO dao = new DAO(DataSourceFactory.getDataSource());
+		// Properties est une Map<clé, valeur> pratique pour générer du JSON
+		Properties resultat = new Properties();
+		try {
+			resultat.put("records", dao.customersInState(state));
+		} catch (SQLException ex) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			resultat.put("records", Collections.EMPTY_LIST);
+			resultat.put("message", ex.getMessage());
+		}
 
-		response.setContentType("application/json;charset=UTF-8");
-
-		
 		try (PrintWriter out = response.getWriter()) {
-			// Trouver la valeur du paramètre HTTP state
-			String state = request.getParameter("state");
-
-			// Créér le DAO avec sa source de données
-			DAO dao = new DAO(DataSourceFactory.getDataSource());
-
-			List<CustomerEntity> customers = dao.customersInState(state);
-			
+			// On spécifie que la servlet va générer du JSON
+			response.setContentType("application/json;charset=UTF-8");
 			// Générer du JSON
-			Gson gson = new Gson();
-			String gsonData = gson.toJson(customers);
+			// Gson gson = new Gson();
+			// setPrettyPrinting pour que le JSON généré soit plus lisible
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String gsonData = gson.toJson(resultat);
 			out.println(gsonData);
-			
-		} catch (Exception ex) {
-			Logger.getLogger("JSONServlet").log(Level.SEVERE, "Action en erreur", ex);
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
 		}
 	}
 
