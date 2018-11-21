@@ -15,5 +15,6 @@
 			<li><a href="JQueryClientMustache.html">Formulaire AJAX avec JQuery + moteur de template Mustache</a></li>
 			<li><a href="googlePieChart.jsp">Visualisations Google avec AJAX</a></li>
 		</ul>
+		<hr>
 	</body>
 </html>
