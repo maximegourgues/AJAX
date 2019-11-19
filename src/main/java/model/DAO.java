@@ -24,58 +24,6 @@ public class DAO {
 	}
 
 	/**
-	 * Liste des clients localisés dans un état des USA
-	 *
-	 * @param state l'état à rechercher (2 caractères)
-	 * @return la liste des clients habitant dans cet état
-	 * @throws SQLException
-	 */
-	public List<CustomerEntity> customersInState(String state) throws SQLException {
-		List<CustomerEntity> result = new LinkedList<>();
-		// Une requête SQL paramétrée
-		String sql = "SELECT * FROM CUSTOMER WHERE STATE = ?";
-		try (Connection connection  = myDataSource.getConnection(); 
-		     PreparedStatement stmt = connection.prepareStatement(sql)) {
-			stmt.setString(1, state);			
-			try (ResultSet rs = stmt.executeQuery()) {
-				while (rs.next()) {
-					// On récupère les champs nécessaires de l'enregistrement courant
-					int id = rs.getInt("CUSTOMER_ID");
-					String name = rs.getString("NAME");
-					String address = rs.getString("ADDRESSLINE1");
-					// On crée l'objet entité
-					CustomerEntity c = new CustomerEntity(id, name, address);
-					// On l'ajoute à la liste des résultats
-					result.add(c);
-				}
-			}
-		}		
-		return result;
-	}
-
-	/**
-	 * Liste des états des USA présents dans la table CUSTOMER
-	 *
-	 * @return la liste des états
-	 * @throws SQLException
-	 */
-	public List<String> existingStates() throws SQLException {
-		List<String> result = new LinkedList<>();
-		String sql = "SELECT DISTINCT STATE FROM CUSTOMER ORDER BY STATE";
-		try ( Connection connection = myDataSource.getConnection(); 
-		      Statement stmt = connection.createStatement(); 
-		      ResultSet rs = stmt.executeQuery(sql)) {
-			while (rs.next()) {
-				// On récupère les champs nécessaires de l'enregistrement courant
-				String state = rs.getString("STATE");
-				// On l'ajoute à la liste des résultats
-				result.add(state);
-			}
-		}
-		return result;
-	}
-
-	/**
 	 * ventes par client
 	 *
 	 * @return Une Map associant le nom du client à son chiffre d'affaires
@@ -101,5 +49,23 @@ public class DAO {
 		}
 		return result;
 	}
+	public List<DiscountCode> allCodes() throws SQLException {
+
+		List<DiscountCode> result = new LinkedList<>();
+
+		String sql = "SELECT * FROM DISCOUNT_CODE ORDER BY DISCOUNT_CODE";
+		try (Connection connection = myDataSource.getConnection(); 
+		     PreparedStatement stmt = connection.prepareStatement(sql)) {
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String id = rs.getString("DISCOUNT_CODE");
+				float rate = rs.getFloat("RATE");
+				DiscountCode c = new DiscountCode(id, rate);
+				result.add(c);
+			}
+		}
+		return result;
+	}
+        
 	
 }
